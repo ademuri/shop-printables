@@ -1,0 +1,11 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:ademuri/openscad-fillets.git
+	branch = main
+	commit = 1a876037fc019148ff3a40ed8358811cb8217766
+	parent = 87fca03e9c9ab5ad7460687f6824db9e9e330275
+	cmdver = 0.3.1
