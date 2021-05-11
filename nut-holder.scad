@@ -3,6 +3,7 @@ use <third_party/openscad-fillets/fillets2d.scad>
 $fn=50;
 epsilon = 0.01;
 text_height = 0.2;
+text_scale = 0.95;
 
 function inch(x) = x * 25.4;
 
@@ -79,7 +80,7 @@ module nut_holder(length, nut_circumradius, nut_height, wall, label_text) {
         rotate([-90, 0, 0]) {
           translate([0, -length / 2, -(outer_inradius + epsilon)]) {
             linear_extrude(height = text_height + epsilon) {
-              label(label_text = label_text, size = outer_side);
+              label(label_text = label_text, size = outer_side * text_scale);
             }
           }
         }
@@ -96,7 +97,7 @@ module nut_holder_text(length, nut_circumradius, wall, label_text) {
     translate([0, 0, outer_inradius]) {
       translate([0, -length / 2, -(outer_inradius + epsilon)]) {
               linear_extrude(height = text_height + epsilon) {
-                label(label_text = label_text, size = outer_side);
+                label(label_text = label_text, size = outer_side * text_scale);
               }
             }
     }
@@ -133,8 +134,8 @@ translate([-len(params) / 2 * spacing, 0, 0]) {
   for (i = [0 : len(params) - 1]) {
     p = params[i];
     translate([i * 20, 0, 0]) {
-      nut_holder(length = p[0], nut_circumradius = p[1], nut_height = p[2], wall = p[3], label_text = p[4]);
-      //nut_holder_text(length = p[0], nut_circumradius = p[1], wall = p[3], label_text = p[4]);
+      //nut_holder(length = p[0], nut_circumradius = p[1], nut_height = p[2], wall = p[3], label_text = p[4]);
+      nut_holder_text(length = p[0], nut_circumradius = p[1], wall = p[3], label_text = p[4]);
     }
   }
 }
