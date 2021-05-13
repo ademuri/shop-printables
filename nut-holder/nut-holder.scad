@@ -1,4 +1,4 @@
-use <third_party/openscad-fillets/fillets2d.scad>
+use <../third_party/openscad-fillets/fillets2d.scad>
 
 $fn=50;
 epsilon = 0.01;
@@ -134,7 +134,7 @@ translate([-len(params) / 2 * spacing, 0, 0]) {
   for (i = [0 : len(params) - 1]) {
     p = params[i];
     translate([i * 20, 0, 0]) {
-      //nut_holder(length = p[0], nut_circumradius = p[1], nut_height = p[2], wall = p[3], label_text = p[4]);
+      nut_holder(length = p[0], nut_circumradius = p[1], nut_height = p[2], wall = p[3], label_text = p[4]);
       nut_holder_text(length = p[0], nut_circumradius = p[1], wall = p[3], label_text = p[4]);
     }
   }
