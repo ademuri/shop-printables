@@ -1,0 +1,10 @@
+use <../third_party/openscad-fillets/fillets2d.scad>
+
+$fn=50;
+epsilon = 0.01;
+
+wall = 1.14;
+base_diameter = 50;
+flare = 0.1;
+
+circle
