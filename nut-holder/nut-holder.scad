@@ -119,6 +119,7 @@ module label(label_text, size) {
 
 // length, nut_circumradius, nut_height, wall, label_text
 params = [
+  [100, 3.75, 1.3, 2, "M1.6"],
   [100, 4.65, 1.6, 2, "M2"  ],
   [100, 5.8 , 2  , 2, "M2.5"],
   [100, 6.35, 2.9, 2, "M3"],
