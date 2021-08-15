@@ -10,9 +10,10 @@ height = 50;
 length_holes = 4;
 width_holes = 4;
 outer_width = 5;
+outer_height = 3;
 joist_width = 1.14;
 joist_height = 2;
-leg_width = 10;
+leg_width = 5;
 leg_fillet = 10;
 
 hole_width = (width - (width_holes - 1) * joist_width - outer_width * 2) / width_holes;
@@ -20,7 +21,21 @@ hole_length = (length - (length_holes - 1) * joist_width - outer_width * 2) / le
 
 internal_fillet = 1;
 
+module top_outer() {
+    difference() {
+        rounding2d(r = outer_width) {
+            square(size = [length, width], center = false);
+        }
+        translate([outer_width, outer_width]) {
+            square([width - outer_width * 2, length - outer_width * 2], center = false);
+        }
+    }
+}
+
 module top() {
+    linear_extrude(height = height) {
+        top_outer();
+    }
     linear_extrude(height = joist_height) {
         difference() {
             rounding2d(r = outer_width) {
@@ -41,46 +56,48 @@ module top() {
     }
 }
 
-module leg() {
-    rotate(90, [1, 0, 0]) {
-        linear_extrude(height = outer_width) {
-            square(size = [leg_width, height - joist_height], center = false);
-            difference() {
-                translate([-leg_fillet, 0]) {
-                    square([leg_width + leg_fillet * 2, leg_fillet], center = false);
-                }
-                translate([-leg_fillet, leg_fillet]) {
-                    circle(r = leg_fillet);
-                }
-                translate([leg_width + leg_fillet, leg_fillet]) {
-                    circle(r = leg_fillet);
+difference() {
+    top();
+    //color([1, 0, 0]) {
+        translate([0, length + 1, 0]) {
+            rotate(90, [1, 0, 0]) {
+                linear_extrude(height = length + 2) {
+                    union() {
+                        translate([outer_width + leg_width + leg_fillet, outer_height]) {
+                            square([width - (outer_width + leg_width + leg_fillet) * 2, height]);
+                        }
+                        translate([outer_width + leg_width, outer_height + leg_fillet]) {
+                            square([width - (outer_width + leg_width) * 2, height]);
+                        }
+                        translate([outer_width + leg_width + leg_fillet, outer_height + leg_fillet]) {
+                            circle(r = leg_fillet);
+                        }
+                        translate([width - (outer_width + leg_width + leg_fillet), outer_height + leg_fillet]) {
+                            circle(r = leg_fillet);
+                        }
+                    }
                 }
             }
         }
-    }
+        translate([-1, 0, 0]) {
+            rotate([90, 0, 90]) {
+                linear_extrude(height = width + 2) {
+                    union() {
+                        translate([outer_width + leg_width + leg_fillet, outer_height]) {
+                            square([length - (outer_width + leg_width + leg_fillet) * 2, height]);
+                        }
+                        translate([outer_width + leg_width, outer_height + leg_fillet]) {
+                            square([length - (outer_width + leg_width) * 2, height]);
+                        }
+                        translate([outer_width + leg_width + leg_fillet, outer_height + leg_fillet]) {
+                            circle(r = leg_fillet);
+                        }
+                        translate([length - (outer_width + leg_width + leg_fillet), outer_height + leg_fillet]) {
+                            circle(r = leg_fillet);
+                        }
+                    }
+                }
+            }
+        }
+    //}
 }
-
-module legs() {
-    translate([width / 2 - leg_width / 2, outer_width, joist_height]) {
-        leg();
-    }
-    translate([width - outer_width, length / 2 - leg_width / 2, joist_height]) {
-        rotate(90, [0, 0, 1]) {
-            leg();
-        }
-    }
-    translate([width / 2 + leg_width / 2, length - outer_width, joist_height]) {
-        rotate(180, [0, 0, 1]) {
-            leg();
-        }
-    }
-    translate([outer_width, length / 2 + leg_width / 2, joist_height]) {
-        rotate(270, [0, 0, 1]) {
-            leg();
-        }
-    }
-}
-
-
-top();
-legs();
